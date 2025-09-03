@@ -1,3 +1,2 @@
 # Web-Mapping
-Web mapping projects
- [WIP](figs/EglintonWay_webMap_test.mov)
+Web mapping projects [](figs/EglintonWay_webMap_test.gif)
