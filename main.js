@@ -3,6 +3,7 @@
 // --- Modal Gallery Logic ---
 let currentImageIndex = 0;
 let currentImages = [];
+let modalTimeout
 
 const modal = document.getElementById("imageModal");
 const modalImg = document.getElementById("modalImage");
@@ -20,12 +21,13 @@ function showImage(index) {
 document.querySelector(".close").onclick = function () {
     modal.style.display = "none";
 };
-
-// Navigation button
+ 
+// Navigation button back
 document.querySelector(".prev").onclick = function () {
     showImage(currentImageIndex - 1);
 };
 
+// Navigation button next
 document.querySelector(".next").onclick = function () {
     showImage(currentImageIndex + 1);
 };
@@ -34,10 +36,10 @@ document.querySelector(".next").onclick = function () {
 var map = new maplibregl.Map({
         container: 'map', // container id
         style: './map_style.json', // style URL
-        center: [-79.41162242337015, 43.70397602606088], // starting position [lng, lat]
-        zoom: 16, // starting zoom
+        center: [-79.41213748, 43.70385454], // starting position [lng, lat]
+        zoom: 15, // starting zoom
         //pitch: 45,         // Tilt the map for a 3D-like perspective
-        //bearing: -45      // Rotate the map
+        bearing: -17.6      // Rotate the map
     });
 
 // --- MapLibre GL JS Run ---
@@ -53,11 +55,22 @@ map.on('load', () => {
         'type': 'circle',
         'source': 'points_source',
         'paint': {
-            'circle-radius': 10,
+            'circle-radius': {
+                "stops": [
+                    [14,4],
+                    [16,10]                    
+                ]
+            },
             'circle-color': '#FFFFFF',
-            'circle-stroke-width': 4,
+            'circle-stroke-width': {
+                "stops": [
+                    [14,3],
+                    [16,4]                    
+                ]
+            } ,
             'circle-stroke-color':["get", "HEX"]
-        }          
+        },
+        "minzoom": 13          
     });
 
     map.addSource('boundary_source', {
@@ -71,18 +84,26 @@ map.on('load', () => {
         'source': 'boundary_source',
         'paint': {
             'fill-color': '#D4B192',
-            'fill-opacity': 0.2,
+            'fill-opacity':{
+                "base" : 1,
+                "stops": [
+                    [12, 1],
+                    [16, .25]
+                ]
+            },
         }      
     }, 'landuse-residential');
 
     // Create a popup, but don't add it to the map yet.
     const popup = new maplibregl.Popup({
         closeButton: false,
-        closeOnClick: false
+        closeOnClick: false,
+        anchor: 'auto',              // Auto-adjusts popup to stay visible
+        offset: 25,                  // Optional: adds some space from the marker
     });
 
     // Make sure to detect marker change for overlapping markers
-    // and use mousemove instead of mouseenter event
+    //  and use mousemove instead of mouseenter event
     let currentFeatureCoordinates = undefined;
     map.on('mousemove', 'points_layer', (e) => {
         const featureCoordinates = e.features[0].geometry.coordinates.toString();
@@ -124,47 +145,57 @@ map.on('load', () => {
     });
 
     // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
-        map.on('click', 'points_layer', (e) => {
-            map.flyTo({
-                center: e.features[0].geometry.coordinates,
-                zoom: 18,
-                speed: .8
-            });
-        });
+    map.on('click', 'points_layer', (e) => {
+        
+        // Clear any timeout from a previous click to prevent multiple modals
+        clearTimeout(modalTimeout);
 
-    // Change the cursor to a pointer when the mouse is over the places layer.
-    map.on('mouseenter', 'points_layer', () => {
-        map.getCanvas().style.cursor = 'pointer';
+        // define feature 
+        const feature = e.features;
+        
+        // Center the map on the clicked feature
+        map.flyTo({
+            center: feature[0].geometry.coordinates,
+            zoom: 18,
+            speed: .8
+        }); 
+
+        // Wait for the map animation to finish before starting the timer
+        map.once('moveend', () => {
+        
+            // Set a 5-second timer to show the modal
+            modalTimeout = setTimeout(() => {
+                let images = feature[0].properties.images;
+
+                if (typeof images === "string") {
+                    try {
+                        images = JSON.parse(images);
+                    } catch (error) {
+                        console.error("Error parsing images JSON:", error);
+                        images = [];
+                    }
+                };
+
+                if (images && images.length > 0) {
+                    currentImages = images;
+                    currentImageIndex = 0;
+                    
+                    showImage(currentImageIndex);
+                    modal.style.display = "flex";
+                }
+            }, 1000); // 1000 milliseconds = 5 seconds
+        });
+        
     });
 
     // Change it back to a pointer when it leaves.
     map.on('mouseleave', 'points_layer', () => {
+        // Also clear the modal timeout if the user moves away
+        clearTimeout(modalTimeout); 
+        
         currentFeatureCoordinates = undefined;
         map.getCanvas().style.cursor = '';
         popup.remove();
     });
 
-
-    // Show image gallery modal --------
-    map.on('click', 'points_layer', function (e) {
-        const feature = e.features[0];
-        let images = feature.properties.images;
-    
-        // If images comes as a string, parse it
-        if (typeof images === "string") {
-            try {
-                images = JSON.parse(images);
-            } catch (e) {
-                images = [];
-            }
-        };
-
-        currentImages = images;
-        currentImageIndex = 0;
-
-        showImage(currentImageIndex);
-        modal.style.display = "block";
-    });
-
-
-});
+})

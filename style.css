@@ -1,78 +1,27 @@
 
-:root {
-    --primary-color: #1e90ff;
-    --secondary-color: #ff7f50;
-    --secondary-dark: #c05630;
-}
-
-* {
-    margin:0;
-    padding: 0;
-    box-sizing: border-box;
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #3663A9;
+    display: flex;
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center;     /* Centers the content vertically */
 }
 
 .app-container {
-    height: 100vh;
-}
-
-header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 12px;
-}
-
-.navigation-bar {
-    display: flex;
-    gap: 10px;
-    align-self: center;
-    flex-wrap: wrap;
-
-}
-
-#AddData {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 12px;
-}
-
-.btn {
-    padding: 8px 16px;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-primary {
-    background-color: var(--secondary-color);
-    border-radius: 20px
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary-dark);
-}
-
-.visual-distance{
-    color: black;
-    padding: 8px 15px;
-    font-size: 14px;
-    background-color: white;
-    border-radius: 20px;
-}
-
-.btn-border{
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    border-radius: 20px
-}
-
-.btn-border:hover {
-    border: 1px solid rgb(167, 164, 164);
+    width: 733px;
+    height: 612px;
+    overflow: hidden;
+    display: flex;           /* Optional, if you want content inside the app-container to be centered too */
+    max-width: 100%;
+    max-height: 100%;
 }
 
 #map {
     width: 100%;
     height: 100%;
 }
+
 
 .open-sans {
     font-family: "Open Sans", sans-serif;
@@ -83,18 +32,23 @@ header {
         "wdth" 100;
 }
 
+
 .maplibregl-popup-content {
     width: 290px;           /* or whatever fixed width you want */
-    max-width: none;        /* prevents it from shrinking */
-    padding: 0;             /* optional: clean edges */
+    max-width: 80vw;        /* prevents it from shrinking */
+    padding: 0px;             /* optional: clean edges */
     box-sizing: border-box; /* make padding behave predictably */
+    border-radius: 4px;
 }
+
 
 .artwork-popup {
     font-family: "Open Sans";
     font-kerning: auto;
     font-optical-sizing: auto;
     padding: 15px 10px 30px;
+    overflow: auto;
+    
 }
 
 .artwork-popup .popup-title {
@@ -131,46 +85,60 @@ header {
 }
 
 
+/* The modal container */
 .modal {
-    display: none;
+    display: none;              /* Keep this for default state */
+    justify-content: center;    /* Center horizontally */
+    align-items: center;        /* Center vertically */
+    
     position: fixed;
     z-index: 9999;
-    padding-top: 60px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgba(0,0,0,0.9);
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    
+    overflow: auto;
+    background-color: rgba(0,0,0,0.85);
 }
 
-.modal-content {
-    display: block;
-    margin: auto;
-    max-width: 80%;
-    max-height: 80%;
+/* The modal images */
+#modalImage {  
+    max-width: 80vw;    /* max width = 50% of viewport width */
+    max-height: 80vh;   /* max height = 50% of viewport height */
+    width: auto;
+    height: auto;
+    object-fit: contain; /* Ensures image aspect ratio is maintained */
 }
 
+/* image counter */
+#caption {
+    color: #ccc;
+    padding: 10px;
+    position: absolute;
+          
+    bottom: 15px; /* Centered at the bottom for better responsiveness */
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap; /* Prevents caption from wrapping */
+}
+
+
+/* Modal Controls: Close, Prev, Next */
 .close {
     position: absolute;
-    top: 30px;
-    right: 35px;
+    top: 1rem;
+    right: 1.5rem;
     color: white;
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
-}
-
-#caption {
-    color: #ccc;
-    text-align: center;
-    padding: 10px;
+    transition: 0.3s;
 }
 
 .prev, .next {
     cursor: pointer;
     position: absolute;
     top: 50%;
+    transform: translateY(-50%); /* Vertically centers the arrows */
     color: white;
     font-size: 40px;
     padding: 16px;
@@ -179,24 +147,43 @@ header {
 }
 
 .prev {
-    left: 20px;
+    left: 1rem;
 }
 
 .next {
-    right: 20px;
+    right: 1rem;
 }
 
-.prev:hover, .next:hover {
+
+.close:hover, .prev:hover, .next:hover {
     color: #f1f1f1;
+    opacity: 0.8
 }
 
 
+/* Media queries for resonsiveness */
+/* On smaller tablets and mobile, allow the map container to fill the screen
+/*
+@media (max-width: 768px) {
+    
+    .app-container {
+        width: 100%;
+        height: 100%;
+    }
+} 
+*/ 
 
 @media (max-width: 500px) {
     .visual-distance {
         width: 100%;
         text-align: center;
         margin: 10px ;
+    }
+
+    /* Reduce padding and font size of controls on small screens */
+    .prev, .next {
+        font-size: 32px;
+        padding: 8px;
     }
 
 }
