@@ -35,7 +35,7 @@ document.querySelector(".next").onclick = function () {
 // --- MapLibre GL JS Setup ---
 var map = new maplibregl.Map({
         container: 'map', // container id
-        style: './map_style.json', // style URL
+        style: 'https://api.maptiler.com/maps/bright/style.json?key=Qy9E3r68pYkMF4Nkahgb', //'./map_style.json', // style URL
         center: [-79.41213748, 43.70385454], // starting position [lng, lat]
         zoom: 15, // starting zoom
         //pitch: 45,         // Tilt the map for a 3D-like perspective
