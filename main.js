@@ -35,8 +35,7 @@ document.querySelector(".next").onclick = function () {
 // --- MapLibre GL JS Setup ---
 var map = new maplibregl.Map({
         container: 'map', // container id
-        style: './map_style.json', // style URL
-        //style: 'https://api.maptiler.com/maps/basic-v2/style.json?key=Po83hG9Hlwbmd2oDw9qj', // basic style
+        style: './data/map_style.json', // style URL
         center: [-79.41213748, 43.70385454], // starting position [lng, lat]
         zoom: 15, // starting zoom
         //pitch: 45,         // Tilt the map for a 3D-like perspective
@@ -48,7 +47,7 @@ map.on('load', () => {
 
     map.addSource('points_source', {
         'type': 'geojson',
-        'data': './points_art.geojson'
+        'data': './data/points_art.geojson'
     });
 
     map.addLayer({
@@ -76,7 +75,7 @@ map.on('load', () => {
 
     map.addSource('boundary_source', {
         'type': 'geojson',
-        'data': './boundary_artwalk.geojson'
+        'data': './data/boundary_artwalk.geojson'
     });
 
     map.addLayer({
