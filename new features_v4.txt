@@ -1,0 +1,57 @@
+I hope you've been well and thanks so much for your patience! I have reviewed the deployed Artwalk Map and my comments are below!
+
+- For all the sculptures, can you please move the installation date to 
+    a new line underneath the artist/title and above the material? (X)
+
+- The image gallery for Mark Puigmarti doesn't pop up when I click it
+  Reply: It does work, just give it time to load
+
+- When I click any of the circles, there is a delay/lag in the gallery popping up
+  Reply: that is because of the size of the images are big
+
+- When I scroll my cursor over Mark Puigmarti's piece and then move it away, the text block remains in place and does not disappear.
+  Reply: can't replicate the error
+
+- Please update the materials/sculpture descriptions for 
+    Austin Emery, (X)
+    Quentin VerCetty, (X)
+    W.W. Hung, (X)
+    Trevor/Rhonda (X)
+    Paul Slipper (webpages have been updated) (X)
+
+- Please correct the typo on 
+    the description for Ted Fullerton: "extened" to "extended" (X)
+
+- Please remove 
+    the 6th photo in the Mark Puigmarti gallery (X)
+
+- Please remove the 2nd, 4th and 5th photo in (X)
+    the Ted Fullerton gallery 
+    (they are very old as there is now a patio in that space) 
+
+- Please remove the 4th image   (X)
+    from Kyle Thornley's gallery
+
+- Please remove the 2nd and 4th image (X)
+    from Soheyl Bastami's gallery
+
+- Please remove images 3-5  (X)
+    for Vahid Misaghi's gallery
+
+- Please see the attached photos to 
+    replace the existing diagrams/mock-ups/segments for 
+    02 Austin Emery             (X)
+    03 Quentin VerCetty         (X)
+    10 Paul Slipper's pieces    (X)
+
+- For the descriptions that are too long and 
+    get cut off at the bottom 
+    (Mark Puigmarti, Trevor/Rhonda, 
+    Kyle Thornley, Vahid Misaghi) 
+    can you please have a "..." to signify that 
+    there is more text and 
+    add an accordion feature with 
+    a "click more" to see 
+    the full description expanded when you click it?
+
+I am still waiting for the proper conditions to take better photos for Paul Slipper's piece so I have sent two placeholder photos for now. The concrete base is still curing so there is a blue tarp over the base right now.

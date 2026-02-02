@@ -96,17 +96,21 @@ map.on('load', () => {
 
     // Create a popup, but don't add it to the map yet.
     const popup = new maplibregl.Popup({
-        closeButton: false,
-        closeOnClick: false,
+        closeButton: true,
+        closeOnClick: true,
         anchor: 'auto',              // Auto-adjusts popup to stay visible
         offset: 25,                  // Optional: adds some space from the marker
     });
 
+    
     // Make sure to detect marker change for overlapping markers
     //  and use mousemove instead of mouseenter event
     let currentFeatureCoordinates = undefined;
-    map.on('mousemove', 'points_layer', (e) => {
+    
+    map.on('mouseenter', 'points_layer', (e) => {
+        
         const featureCoordinates = e.features[0].geometry.coordinates.toString();
+        
         if (currentFeatureCoordinates !== featureCoordinates) {
             currentFeatureCoordinates = featureCoordinates;
 
@@ -121,13 +125,12 @@ map.on('load', () => {
                 <div class="artwork-popup">
                     <h3 class="popup-title">${props.ARTIST_NAME}</h3>
 
-                    <div class="artwork-subtitle">
-                        <div class="popup-left-subtitle">${props.SCULPTURE_NAME},</div> 
-                        <div class="popup-right-subtitle">${props.INSTALLATION_DATE}</div>
-                    </div>
+                    <div class="artwork-subtitle-a">${props.SCULPTURE_NAME}</div>
+                    <div class="artwork-subtitle-b">${props.INSTALLATION_DATE}</div>
 
                     <div class="popup-strong">${props.MATERIALS}</div>
                     <p class="popup-description">${props.DESCRIPTION}</p>
+  
                 </div> 
             `;
 
@@ -140,11 +143,27 @@ map.on('load', () => {
 
             // Populate the popup and set its coordinates
             // based on the feature found.
-            popup.setLngLat(coordinates).setHTML(artworkLabel).addTo(map);
+            popup.setLngLat(coordinates).setHTML(artworkLabel).addTo(map);                    
         }
+
     });
 
-    // Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
+
+    // Change mouse back to a pointer when it leaves.
+    map.on('mouseleave', 'points_layer', () => {
+        // Also clear the modal timeout if the user moves away
+        //clearTimeout(modalTimeout);
+        
+        currentFeatureCoordinates = undefined;
+        map.getCanvas().style.cursor = '';
+        //popup.remove();
+    });
+
+    // Stay 
+    
+       
+    // Launch Gallery
+    //  Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
     map.on('click', 'points_layer', (e) => {
         
         // Clear any timeout from a previous click to prevent multiple modals
@@ -186,16 +205,7 @@ map.on('load', () => {
             }, 1000); // 1000 milliseconds = 5 seconds
         });
         
-    });
-
-    // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'points_layer', () => {
-        // Also clear the modal timeout if the user moves away
-        clearTimeout(modalTimeout); 
-        
-        currentFeatureCoordinates = undefined;
-        map.getCanvas().style.cursor = '';
-        popup.remove();
-    });
+    })   
+    
 
 })
