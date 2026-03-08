@@ -9,8 +9,8 @@ html, body {
 }
 
 .app-container {
-    width: 733px;
-    height: 612px;
+    width: 770px;       /*original 733, 806*/
+    height: 643px;      /*original 612, 673*/
     overflow: hidden;
     display: flex;           /* Optional, if you want content inside the app-container to be centered too */
     max-width: 100%;
@@ -21,7 +21,6 @@ html, body {
     width: 100%;
     height: 100%;
 }
-
 
 .open-sans {
     font-family: "Open Sans", sans-serif;
@@ -44,13 +43,10 @@ html, body {
 }
 
 /* NEW
-
 /* Popup content styles */
 .maplibregl-popup-content {
-    width: 290px;           /* or whatever fixed width you want */
-    max-width: 80vw;        /* prevents it from shrinking */
-    padding: 0px;             /* optional: clean edges */
-    box-sizing: border-box; /* make padding behave predictably */
+    padding: 0px;               /* optional: clean edges */
+    box-sizing: border-box;     /* make padding behave predictably */
     border-radius: 4px;
 }
 
@@ -59,7 +55,9 @@ html, body {
     font-family: "Open Sans";
     font-kerning: auto;
     font-optical-sizing: auto;
-    padding: 15px 0px 30px 10px;
+    padding: 0px 10px 0px 10px;
+    width: 231px;       /*original 220 or 242*/
+    max-width: 80vw;          /* prevents it from shrinking */
 }
 
 .artwork-popup .popup-title {
@@ -91,11 +89,12 @@ html, body {
     margin-bottom: 14px;
 }
 
-.artwork-popup .popup-description {
+.artwork-popup .popup-description, p {
     font-size: 14px;
     max-height: 400px; /* Adjust the height as needed */
     overflow-y: auto;  /* Enables vertical scrolling */
-    margin-bottom: 1.5em;
+    margin-bottom: 1em/*.8em*/;
+    hyphens: auto
 }
 
 
@@ -167,7 +166,6 @@ html, body {
 .next {
     right: 1rem;
 }
-
 
 .close:hover, .prev:hover, .next:hover {
     color: #f1f1f1;

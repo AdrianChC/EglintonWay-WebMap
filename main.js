@@ -32,15 +32,18 @@ document.querySelector(".next").onclick = function () {
     showImage(currentImageIndex + 1);
 };
 
+
 // --- MapLibre GL JS Setup ---
 var map = new maplibregl.Map({
         container: 'map', // container id
         style: './data/map_style.json', // style URL
-        center: [-79.41213748, 43.70385454], // starting position [lng, lat]
+        //center: [-79.41213748, 43.70385454], // starting position [lng, lat]
+        center: [-79.4136, 43.70385454], // starting position [lng, lat]
         zoom: 15, // starting zoom
+        bearing: -17.6,      // Rotate the map
         //pitch: 45,         // Tilt the map for a 3D-like perspective
-        bearing: -17.6      // Rotate the map
     });
+
 
 // --- MapLibre GL JS Run ---
 map.on('load', () => {
@@ -96,10 +99,10 @@ map.on('load', () => {
 
     // Create a popup, but don't add it to the map yet.
     const popup = new maplibregl.Popup({
-        closeButton: true,
+        closeButton: false,
         closeOnClick: true,
         anchor: 'auto',              // Auto-adjusts popup to stay visible
-        offset: 25,                  // Optional: adds some space from the marker
+        //offset: 250,                  // Optional: adds some space from the marker
     });
 
     
@@ -107,7 +110,7 @@ map.on('load', () => {
     //  and use mousemove instead of mouseenter event
     let currentFeatureCoordinates = undefined;
     
-    map.on('mouseenter', 'points_layer', (e) => {
+    map.on('mousemove', 'points_layer', (e) => {
         
         const featureCoordinates = e.features[0].geometry.coordinates.toString();
         
@@ -152,16 +155,14 @@ map.on('load', () => {
     // Change mouse back to a pointer when it leaves.
     map.on('mouseleave', 'points_layer', () => {
         // Also clear the modal timeout if the user moves away
-        //clearTimeout(modalTimeout);
+        clearTimeout(modalTimeout);
         
         currentFeatureCoordinates = undefined;
         map.getCanvas().style.cursor = '';
-        //popup.remove();
+        popup.remove();
     });
 
-    // Stay 
-    
-       
+     
     // Launch Gallery
     //  Center the map on the coordinates of any clicked symbol from the 'symbols' layer.
     map.on('click', 'points_layer', (e) => {
@@ -176,7 +177,7 @@ map.on('load', () => {
         map.flyTo({
             center: feature[0].geometry.coordinates,
             zoom: 18,
-            speed: .8
+            speed: .8 //.8
         }); 
 
         // Wait for the map animation to finish before starting the timer
@@ -202,7 +203,7 @@ map.on('load', () => {
                     showImage(currentImageIndex);
                     modal.style.display = "flex";
                 }
-            }, 1000); // 1000 milliseconds = 5 seconds
+            }, 0); // 1000 milliseconds = 1 seconds
         });
         
     })   
